@@ -1,4 +1,4 @@
-import { computed, readonly } from 'vue'
+import { computed } from 'vue'
 import type { GameState, GameConfig, GamePhase } from '@/types/game'
 import { createBoard } from '@/utils/boardUtils'
 import { useLocalStorage } from './useLocalStorage'
@@ -60,7 +60,7 @@ export function useGameBoard() {
   }
   
   return {
-    gameState: readonly(gameState),
+    gameState,
     isGameActive,
     currentPhase,
     progress,

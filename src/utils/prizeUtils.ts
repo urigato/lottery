@@ -9,7 +9,7 @@ export function shuffleArray<T>(array: T[]): T[] {
   return shuffled
 }
 
-export function expandPrizes(prizes: Prize[], emptySlotText: string): string[] {
+export function expandPrizes(prizes: Prize[]): string[] {
   const expandedPrizes: string[] = []
   
   prizes.forEach(prize => {
@@ -33,7 +33,7 @@ export function fillEmptySlots(prizes: string[], totalSlots: number, emptySlotTe
 
 export function distributePrizes(prizes: Prize[], boardSize: number, emptySlotText: string): string[] {
   const totalSlots = boardSize * boardSize
-  const expandedPrizes = expandPrizes(prizes, emptySlotText)
+  const expandedPrizes = expandPrizes(prizes)
   const filledPrizes = fillEmptySlots(expandedPrizes, totalSlots, emptySlotText)
   
   return shuffleArray(filledPrizes)

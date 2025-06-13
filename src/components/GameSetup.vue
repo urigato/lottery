@@ -1,30 +1,30 @@
 <template>
-  <div class="setup-container">
-    <div class="setup-card">
-      <h1 class="setup-title">🎲 국민대 경품추첨 보드판</h1>
-      <p class="setup-subtitle">새로운 게임을 설정하세요</p>
+  <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg shadow-xl p-8 w-full max-w-2xl">
+      <h1 class="text-3xl font-bold text-center text-gray-800 mb-2">🎲 국민대 경품추첨 보드판</h1>
+      <p class="text-gray-600 text-center mb-8">새로운 게임을 설정하세요</p>
       
-      <form @submit.prevent="handleSubmit" class="setup-form">
+      <form @submit.prevent="handleSubmit" class="space-y-6">
         <!-- 게임 타이틀 -->
-        <div class="form-group">
-          <label for="title" class="form-label">게임 타이틀</label>
+        <div class="space-y-2">
+          <label for="title" class="block text-sm font-medium text-gray-700">게임 타이틀</label>
           <input
             id="title"
             v-model="form.title"
             type="text"
-            class="form-input"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="예: 신년 경품 추첨"
             required
           >
         </div>
 
         <!-- 보드 크기 -->
-        <div class="form-group">
-          <label for="boardSize" class="form-label">보드 크기</label>
+        <div class="space-y-2">
+          <label for="boardSize" class="block text-sm font-medium text-gray-700">보드 크기</label>
           <select
             id="boardSize"
             v-model="form.boardSize"
-            class="form-select"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             required
           >
             <option value="" disabled>크기를 선택하세요</option>
@@ -35,14 +35,14 @@
         </div>
 
         <!-- 경품 목록 -->
-        <div class="form-group">
-          <label class="form-label">경품 목록</label>
-          <div class="prizes-section">
-            <div v-for="(prize, index) in form.prizes" :key="index" class="prize-item">
+        <div class="space-y-2">
+          <label class="block text-sm font-medium text-gray-700">경품 목록</label>
+          <div class="space-y-3">
+            <div v-for="(prize, index) in form.prizes" :key="index" class="flex gap-2 items-center">
               <input
                 v-model="prize.name"
                 type="text"
-                class="prize-name-input"
+                class="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="상품명"
                 required
               >
@@ -50,14 +50,14 @@
                 v-model.number="prize.quantity"
                 type="number"
                 min="1"
-                class="prize-quantity-input"
+                class="w-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="수량"
                 required
               >
               <button
                 type="button"
                 @click="removePrize(index)"
-                class="remove-prize-btn"
+                class="px-2 py-1 text-red-600 hover:bg-red-50 rounded disabled:opacity-50 disabled:cursor-not-allowed"
                 :disabled="form.prizes.length <= 1"
               >
                 ❌
@@ -66,7 +66,7 @@
             <button
               type="button"
               @click="addPrize"
-              class="add-prize-btn"
+              class="w-full py-2 px-4 border-2 border-dashed border-gray-300 rounded-md text-gray-600 hover:border-blue-400 hover:text-blue-600 transition-colors"
             >
               + 경품 추가
             </button>
@@ -74,40 +74,40 @@
         </div>
 
         <!-- 빈칸 텍스트 -->
-        <div class="form-group">
-          <label for="emptySlotText" class="form-label">빈칸 텍스트</label>
+        <div class="space-y-2">
+          <label for="emptySlotText" class="block text-sm font-medium text-gray-700">빈칸 텍스트</label>
           <input
             id="emptySlotText"
             v-model="form.emptySlotText"
             type="text"
-            class="form-input"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="예: 꽝, 다음 기회에"
             required
           >
         </div>
 
         <!-- 총 경품 수량 표시 -->
-        <div class="summary-section">
-          <div class="summary-item">
-            <span class="summary-label">총 경품 수량:</span>
-            <span class="summary-value">{{ totalPrizes }}개</span>
+        <div class="bg-gray-50 rounded-lg p-4 space-y-2">
+          <div class="flex justify-between items-center">
+            <span class="text-sm text-gray-600">총 경품 수량:</span>
+            <span class="text-sm font-semibold text-gray-800">{{ totalPrizes }}개</span>
           </div>
-          <div class="summary-item">
-            <span class="summary-label">보드 칸 수:</span>
-            <span class="summary-value">{{ totalSlots }}칸</span>
+          <div class="flex justify-between items-center">
+            <span class="text-sm text-gray-600">보드 칸 수:</span>
+            <span class="text-sm font-semibold text-gray-800">{{ totalSlots }}칸</span>
           </div>
-          <div class="summary-item">
-            <span class="summary-label">빈칸 수:</span>
-            <span class="summary-value">{{ emptySlots }}칸</span>
+          <div class="flex justify-between items-center">
+            <span class="text-sm text-gray-600">빈칸 수:</span>
+            <span class="text-sm font-semibold text-gray-800">{{ emptySlots }}칸</span>
           </div>
         </div>
 
         <!-- 파일 작업 버튼들 -->
-        <div class="file-operations">
+        <div class="flex gap-4 mb-6">
           <button
             type="button"
             @click="handleExportConfig"
-            class="file-btn export-btn"
+            class="flex-1 px-4 py-2 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 bg-green-600 text-white hover:bg-green-700 focus:ring-green-500 disabled:bg-gray-300 disabled:cursor-not-allowed"
             :disabled="!isFormValid"
           >
             📁 설정 내보내기
@@ -115,7 +115,7 @@
           <button
             type="button"
             @click="handleImportConfig"
-            class="file-btn import-btn"
+            class="flex-1 px-4 py-2 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500"
           >
             📂 설정 불러오기
           </button>
@@ -124,7 +124,7 @@
         <!-- 제출 버튼 -->
         <button
           type="submit"
-          class="submit-btn"
+          class="w-full bg-blue-600 text-white py-3 px-4 rounded-md font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           :disabled="!isFormValid"
         >
           게임 시작하기
@@ -132,15 +132,19 @@
       </form>
 
       <!-- 저장된 게임이 있는 경우 -->
-      <div v-if="hasSavedGame" class="saved-game-section">
-        <p class="saved-game-text">저장된 게임이 있습니다</p>
-        <button @click="loadSavedGame" class="load-game-btn">
+      <div v-if="hasSavedGame" class="mt-6 pt-6 border-t border-gray-200 text-center">
+        <p class="text-sm text-gray-600 mb-3">저장된 게임이 있습니다</p>
+        <button @click="loadSavedGame" class="bg-green-600 text-white py-2 px-4 rounded-md font-medium hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors">
           이어서 하기
         </button>
       </div>
 
       <!-- 알림 메시지 -->
-      <div v-if="notification" class="notification" :class="notification.type">
+      <div v-if="notification" class="mt-6 p-4 rounded-lg font-medium text-center" :class="{
+        'bg-green-100 text-green-800': notification.type === 'success',
+        'bg-red-100 text-red-800': notification.type === 'error',
+        'bg-blue-100 text-blue-800': notification.type === 'info'
+      }">
         {{ notification.message }}
       </div>
     </div>
@@ -161,7 +165,7 @@ interface Props {
   hasSavedGame?: boolean
 }
 
-const props = defineProps<Props>()
+defineProps<Props>()
 const emit = defineEmits<Emits>()
 
 const { exportGameConfig, importGameConfig } = useFileOperations()
@@ -284,143 +288,23 @@ const handleImportConfig = async () => {
 </script>
 
 <style scoped>
-.setup-container {
-  @apply min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4;
-}
-
-.setup-card {
-  @apply bg-white rounded-lg shadow-xl p-8 w-full max-w-2xl;
-}
-
-.setup-title {
-  @apply text-3xl font-bold text-center text-gray-800 mb-2;
-}
-
-.setup-subtitle {
-  @apply text-gray-600 text-center mb-8;
-}
-
-.setup-form {
-  @apply space-y-6;
-}
-
-.form-group {
-  @apply space-y-2;
-}
-
-.form-label {
-  @apply block text-sm font-medium text-gray-700;
-}
-
-.form-input, .form-select {
-  @apply w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
-}
-
-.prizes-section {
-  @apply space-y-3;
-}
-
-.prize-item {
-  @apply flex gap-2 items-center;
-}
-
-.prize-name-input {
-  @apply flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
-}
-
-.prize-quantity-input {
-  @apply w-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
-}
-
-.remove-prize-btn {
-  @apply px-2 py-1 text-red-600 hover:bg-red-50 rounded disabled:opacity-50 disabled:cursor-not-allowed;
-}
-
-.add-prize-btn {
-  @apply w-full py-2 px-4 border-2 border-dashed border-gray-300 rounded-md text-gray-600 hover:border-blue-400 hover:text-blue-600 transition-colors;
-}
-
-.summary-section {
-  @apply bg-gray-50 rounded-lg p-4 space-y-2;
-}
-
-.summary-item {
-  @apply flex justify-between items-center;
-}
-
-.summary-label {
-  @apply text-sm text-gray-600;
-}
-
-.summary-value {
-  @apply text-sm font-semibold text-gray-800;
-}
-
-/* 파일 작업 버튼들 */
-.file-operations {
-  @apply flex gap-4 mb-6;
-}
-
-.file-btn {
-  @apply flex-1 px-4 py-2 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2;
-}
-
-.export-btn {
-  @apply bg-green-600 text-white hover:bg-green-700 focus:ring-green-500 disabled:bg-gray-300 disabled:cursor-not-allowed;
-}
-
-.import-btn {
-  @apply bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500;
-}
-
-.submit-btn {
-  @apply w-full bg-blue-600 text-white py-3 px-4 rounded-md font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors;
-}
-
-/* 알림 메시지 */
-.notification {
-  @apply mt-6 p-4 rounded-lg font-medium text-center;
-}
-
-.notification.success {
-  @apply bg-green-100 text-green-800;
-}
-
-.notification.error {
-  @apply bg-red-100 text-red-800;
-}
-
-.notification.info {
-  @apply bg-blue-100 text-blue-800;
-}
-
-.saved-game-section {
-  @apply mt-6 pt-6 border-t border-gray-200 text-center;
-}
-
-.saved-game-text {
-  @apply text-sm text-gray-600 mb-3;
-}
-
-.load-game-btn {
-  @apply bg-green-600 text-white py-2 px-4 rounded-md font-medium hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors;
-}
-
+/* 반응형 디자인 */
 @media (max-width: 640px) {
   .setup-card {
-    @apply p-6;
+    padding: 1.5rem;
   }
   
   .setup-title {
-    @apply text-2xl;
+    font-size: 1.5rem;
   }
   
   .prize-item {
-    @apply flex-col gap-2;
+    flex-direction: column;
+    gap: 0.5rem;
   }
   
   .prize-name-input, .prize-quantity-input {
-    @apply w-full;
+    width: 100%;
   }
 }
 </style> 

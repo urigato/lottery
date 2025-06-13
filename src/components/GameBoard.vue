@@ -1,49 +1,49 @@
 <template>
-  <div class="game-container">
+  <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
     <!-- 게임 헤더 -->
-    <div class="game-header">
-      <div class="game-info">
-        <h1 class="game-title">{{ gameState.config.title }}</h1>
-        <div class="game-stats">
-          <div class="stat-item">
-            <span class="stat-label">진행률:</span>
-            <span class="stat-value">{{ progress }}%</span>
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div class="flex-1">
+        <h1 class="text-2xl font-bold text-gray-800 mb-2">{{ gameState.config.title }}</h1>
+        <div class="flex gap-4 text-sm">
+          <div class="flex items-center gap-1">
+            <span class="text-gray-600">진행률:</span>
+            <span class="font-semibold text-gray-800">{{ progress }}%</span>
           </div>
-          <div class="stat-item">
-            <span class="stat-label">공개:</span>
-            <span class="stat-value">{{ gameState.revealedCount }}/{{ gameState.totalCells }}</span>
+          <div class="flex items-center gap-1">
+            <span class="text-gray-600">공개:</span>
+            <span class="font-semibold text-gray-800">{{ gameState.revealedCount }}/{{ gameState.totalCells }}</span>
           </div>
         </div>
       </div>
       
-      <div class="game-controls">
-        <button @click="handleExportConfig" class="control-btn export-btn">
+      <div class="flex gap-2">
+        <button @click="handleExportConfig" class="px-4 py-2 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 bg-green-600 text-white hover:bg-green-700 focus:ring-green-500">
           📁 설정 내보내기
         </button>
-        <button @click="showResetConfirm = true" class="control-btn reset-btn">
+        <button @click="showResetConfirm = true" class="px-4 py-2 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 bg-red-600 text-white hover:bg-red-700 focus:ring-red-500">
           🔄 새 게임
         </button>
-        <button @click="showRestartConfirm = true" class="control-btn restart-btn">
+        <button @click="showRestartConfirm = true" class="px-4 py-2 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500">
           ↩️ 다시 시작
         </button>
       </div>
     </div>
 
     <!-- 진행률 바 -->
-    <div class="progress-section">
-      <div class="progress-bar-container">
+    <div class="bg-white rounded-lg shadow-lg p-4 mb-6">
+      <div class="w-full bg-gray-200 rounded-full h-4 mb-2">
         <div 
-          class="progress-bar" 
+          class="bg-blue-600 h-full rounded-full transition-all duration-300 ease-out" 
           :style="{ width: `${progress}%` }"
         ></div>
       </div>
-      <div class="progress-text">{{ progress }}% 완료</div>
+      <div class="text-center text-sm font-medium text-gray-700">{{ progress }}% 완료</div>
     </div>
 
     <!-- 게임 보드 -->
-    <div class="board-container">
+    <div class="bg-white rounded-lg shadow-lg p-6">
       <div 
-        class="game-board" 
+        class="grid gap-2 max-w-4xl mx-auto" 
         :class="gridClass"
       >
         <BoardCell
@@ -56,18 +56,18 @@
     </div>
 
     <!-- 게임 완료 모달 -->
-    <div v-if="currentPhase === 'finished'" class="modal-overlay" @click="closeFinishModal">
-      <div class="modal-content" @click.stop>
-        <h2 class="modal-title">🎉 게임 완료!</h2>
-        <p class="modal-message">모든 상품이 공개되었습니다.</p>
-        <div class="modal-actions">
-          <button @click="restartGame" class="modal-btn primary">
+    <div v-if="currentPhase === 'finished' && showFinishModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" @click="closeFinishModal">
+      <div class="bg-white rounded-lg shadow-xl p-6 max-w-md w-full" @click.stop>
+        <h2 class="text-xl font-bold text-gray-800 mb-4">🎉 게임 완료!</h2>
+        <p class="text-gray-600 mb-6">모든 상품이 공개되었습니다.</p>
+        <div class="flex gap-2 justify-end">
+          <button @click="restartGame" class="px-4 py-2 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500">
             다시 시작
           </button>
-          <button @click="resetGame" class="modal-btn secondary">
+          <button @click="resetGame" class="px-4 py-2 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500">
             새 게임
           </button>
-          <button @click="closeFinishModal" class="modal-btn">
+          <button @click="closeFinishModal" class="px-4 py-2 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-500">
             닫기
           </button>
         </div>
@@ -75,15 +75,15 @@
     </div>
 
     <!-- 새 게임 확인 모달 -->
-    <div v-if="showResetConfirm" class="modal-overlay" @click="showResetConfirm = false">
-      <div class="modal-content" @click.stop>
-        <h2 class="modal-title">⚠️ 새 게임</h2>
-        <p class="modal-message">현재 게임을 종료하고 새 게임을 시작하시겠습니까?</p>
-        <div class="modal-actions">
-          <button @click="confirmReset" class="modal-btn danger">
+    <div v-if="showResetConfirm" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" @click="showResetConfirm = false">
+      <div class="bg-white rounded-lg shadow-xl p-6 max-w-md w-full" @click.stop>
+        <h2 class="text-xl font-bold text-gray-800 mb-4">⚠️ 새 게임</h2>
+        <p class="text-gray-600 mb-6">현재 게임을 종료하고 새 게임을 시작하시겠습니까?</p>
+        <div class="flex gap-2 justify-end">
+          <button @click="confirmReset" class="px-4 py-2 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 bg-red-600 text-white hover:bg-red-700 focus:ring-red-500">
             확인
           </button>
-          <button @click="showResetConfirm = false" class="modal-btn">
+          <button @click="showResetConfirm = false" class="px-4 py-2 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-500">
             취소
           </button>
         </div>
@@ -91,15 +91,15 @@
     </div>
 
     <!-- 다시 시작 확인 모달 -->
-    <div v-if="showRestartConfirm" class="modal-overlay" @click="showRestartConfirm = false">
-      <div class="modal-content" @click.stop>
-        <h2 class="modal-title">🔄 다시 시작</h2>
-        <p class="modal-message">같은 설정으로 게임을 다시 시작하시겠습니까?</p>
-        <div class="modal-actions">
-          <button @click="confirmRestart" class="modal-btn primary">
+    <div v-if="showRestartConfirm" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" @click="showRestartConfirm = false">
+      <div class="bg-white rounded-lg shadow-xl p-6 max-w-md w-full" @click.stop>
+        <h2 class="text-xl font-bold text-gray-800 mb-4">🔄 다시 시작</h2>
+        <p class="text-gray-600 mb-6">같은 설정으로 게임을 다시 시작하시겠습니까?</p>
+        <div class="flex gap-2 justify-end">
+          <button @click="confirmRestart" class="px-4 py-2 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500">
             확인
           </button>
-          <button @click="showRestartConfirm = false" class="modal-btn">
+          <button @click="showRestartConfirm = false" class="px-4 py-2 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-500">
             취소
           </button>
         </div>
@@ -108,10 +108,10 @@
 
     <!-- 상품 공개 알림 -->
     <Transition name="prize-reveal">
-      <div v-if="revealedPrize" class="prize-notification">
-        <div class="prize-content">
-          <div class="prize-number">{{ revealedPrize.number }}번</div>
-          <div class="prize-name">{{ revealedPrize.prize }}</div>
+      <div v-if="revealedPrize" class="fixed bottom-4 right-4 bg-green-600 text-white p-4 rounded-lg shadow-xl z-40">
+        <div class="text-center">
+          <div class="text-sm font-medium">{{ revealedPrize.number }}번</div>
+          <div class="text-lg font-bold">{{ revealedPrize.prize }}</div>
         </div>
       </div>
     </Transition>
@@ -119,7 +119,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import type { GameState, GamePhase } from '@/types/game'
 import { getGridCols } from '@/utils/boardUtils'
 import { useFileOperations } from '@/composables/useFileOperations'
@@ -148,6 +148,13 @@ const showFinishModal = ref(true)
 const revealedPrize = ref<{ number: number; prize: string } | null>(null)
 
 const gridClass = computed(() => getGridCols(props.gameState.config.boardSize))
+
+// 게임이 완료되면 모달 표시
+watch(() => props.currentPhase, (newPhase) => {
+  if (newPhase === 'finished') {
+    showFinishModal.value = true
+  }
+})
 
 const handleCellReveal = (cellNumber: number) => {
   const cell = props.gameState.board.find(c => c.number === cellNumber)
@@ -203,183 +210,13 @@ const handleExportConfig = () => {
 </script>
 
 <style scoped>
-.game-container {
-  @apply min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4;
-}
-
-.game-header {
-  @apply bg-white rounded-lg shadow-lg p-6 mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4;
-}
-
-.game-info {
-  @apply flex-1;
-}
-
-.game-title {
-  @apply text-2xl font-bold text-gray-800 mb-2;
-}
-
-.game-stats {
-  @apply flex gap-4 text-sm;
-}
-
-.stat-item {
-  @apply flex items-center gap-1;
-}
-
-.stat-label {
-  @apply text-gray-600;
-}
-
-.stat-value {
-  @apply font-semibold text-gray-800;
-}
-
-.game-controls {
-  @apply flex gap-2;
-}
-
-.control-btn {
-  @apply px-4 py-2 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2;
-}
-
-.reset-btn {
-  @apply bg-red-600 text-white hover:bg-red-700 focus:ring-red-500;
-}
-
-.restart-btn {
-  @apply bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500;
-}
-
-.export-btn {
-  @apply bg-green-600 text-white hover:bg-green-700 focus:ring-green-500;
-}
-
-.progress-section {
-  @apply bg-white rounded-lg shadow-lg p-4 mb-6;
-}
-
-.progress-bar-container {
-  @apply w-full bg-gray-200 rounded-full h-4 mb-2;
-}
-
-.progress-bar {
-  @apply bg-blue-600 h-full rounded-full transition-all duration-300 ease-out;
-}
-
-.progress-text {
-  @apply text-center text-sm font-medium text-gray-700;
-}
-
-.board-container {
-  @apply bg-white rounded-lg shadow-lg p-6;
-}
-
-.game-board {
-  @apply grid gap-2 max-w-4xl mx-auto;
-}
-
-/* 모달 스타일 */
-.modal-overlay {
-  @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50;
-}
-
-.modal-content {
-  @apply bg-white rounded-lg shadow-xl p-6 max-w-md w-full;
-}
-
-.modal-title {
-  @apply text-xl font-bold text-gray-800 mb-4;
-}
-
-.modal-message {
-  @apply text-gray-600 mb-6;
-}
-
-.modal-actions {
-  @apply flex gap-2 justify-end;
-}
-
-.modal-btn {
-  @apply px-4 py-2 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2;
-}
-
-.modal-btn.primary {
-  @apply bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500;
-}
-
-.modal-btn.secondary {
-  @apply bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500;
-}
-
-.modal-btn.danger {
-  @apply bg-red-600 text-white hover:bg-red-700 focus:ring-red-500;
-}
-
-.modal-btn:not(.primary):not(.secondary):not(.danger) {
-  @apply bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-500;
-}
-
-/* 상품 공개 알림 */
-.prize-notification {
-  @apply fixed bottom-4 right-4 bg-green-600 text-white p-4 rounded-lg shadow-xl z-40;
-}
-
-.prize-content {
-  @apply text-center;
-}
-
-.prize-number {
-  @apply text-sm font-medium;
-}
-
-.prize-name {
-  @apply text-lg font-bold;
-}
-
 /* 애니메이션 */
 .prize-reveal-enter-active, .prize-reveal-leave-active {
-  @apply transition-all duration-300;
+  transition: all 0.3s;
 }
 
 .prize-reveal-enter-from, .prize-reveal-leave-to {
-  @apply opacity-0 transform translate-x-full;
-}
-
-/* 반응형 디자인 */
-@media (max-width: 640px) {
-  .game-header {
-    @apply p-4;
-  }
-  
-  .game-title {
-    @apply text-xl;
-  }
-  
-  .game-stats {
-    @apply flex-col gap-2;
-  }
-  
-  .control-btn {
-    @apply px-3 py-2 text-sm;
-  }
-  
-  .board-container {
-    @apply p-4;
-  }
-  
-  .game-board {
-    @apply gap-1;
-  }
-}
-
-@media (min-width: 1024px) {
-  .game-container {
-    @apply p-8;
-  }
-  
-  .game-board {
-    @apply gap-3;
-  }
+  opacity: 0;
+  transform: translateX(100%);
 }
 </style> 
