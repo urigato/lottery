@@ -133,7 +133,7 @@ const getConfettiStyle = (index: number) => {
 }
 
 // 별 모양 콘페티 스타일
-const getStarStyle = (index: number) => {
+const getStarStyle = (_index: number) => {
   const delay = Math.random() * 0.4
   const duration = 2.5 + Math.random() * 1
   const xPos = 15 + Math.random() * 70 // 15%~85% 범위로 조정
@@ -149,7 +149,7 @@ const getStarStyle = (index: number) => {
 }
 
 // 하트 모양 콘페티 스타일
-const getHeartStyle = (index: number) => {
+const getHeartStyle = (_index: number) => {
   const delay = Math.random() * 0.5
   const duration = 3 + Math.random() * 1
   const xPos = 10 + Math.random() * 80 // 10%~90% 범위로 조정
