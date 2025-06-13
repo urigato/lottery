@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 md:p-4 sm:p-2 p-0">
+  <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 md:p-4 sm:p-2 p-0 overflow-x-hidden">
     <!-- 게임 헤더 -->
     <div class="bg-white rounded-lg shadow-lg md:p-6 sm:p-4 p-4 md:mb-6 sm:mb-4 mb-3 flex flex-col">
       <div class="flex-1 flex-col sm:flex-row justify-between items-start sm:items-center gap-4 flex mb-2">

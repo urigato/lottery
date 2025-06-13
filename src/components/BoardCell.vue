@@ -182,20 +182,28 @@ const handleReveal = async () => {
   position: relative;
   aspect-ratio: 1;
   min-height: 80px;
+  background-color: white;
+  border-color: #d1d5db;
+  border-radius: 0.5rem;
+  /* box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); */
+  border: 2px solid #d1d5db;
+  cursor: default;
+  border-style: dashed;
 }
 
 .board-cell {
   position: relative;
   width: 100%;
   height: 100%;
-  background-color: white;
+  /* background-color: white; */
   border: 2px solid #d1d5db;
   border-radius: 0.5rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); */
   transition: all 0.3s ease;
   outline: none;
   overflow: hidden;
   cursor: pointer;
+  transform: scale(1.05);
 }
 
 .board-cell:focus {
@@ -211,23 +219,24 @@ const handleReveal = async () => {
 .board-cell.unrevealed:not(:disabled):hover {
   border-color: #60a5fa;
   background: linear-gradient(135deg, #eff6ff, #dbeafe);
-  transform: scale(1.05);
+  transform: scale(1.1);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 /* 오픈된 카드 스타일 */
 .board-cell.revealed {
-  background-color: white;
-  border-color: #d1d5db;
+  border: none;
+  box-shadow: none;
   cursor: default;
-  border-style: dashed;
 }
 
 /* 애니메이션 중 스타일 */
 .board-cell.animating {
-  animation: revealPulse 0.6s ease-out;
+  /* animation: revealPulse 0.6s ease-out; */
+  border: none;
+  box-shadow: none;
 }
-
+/* 
 @keyframes revealPulse {
   0% { 
     transform: scale(1);
@@ -241,7 +250,7 @@ const handleReveal = async () => {
     transform: scale(1);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   }
-}
+} */
 
 /* 호버 효과 */
 .hover-effect {
