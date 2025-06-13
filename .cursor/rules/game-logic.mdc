@@ -1,0 +1,60 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# 게임 로직 및 규칙
+
+## 게임 데이터 구조
+게임의 핵심 데이터 구조는 [src/types/game.ts](mdc:src/types/game.ts)에 정의됩니다.
+
+### 주요 인터페이스
+```typescript
+interface PrizeItem {
+  name: string;   // 상품명
+  count: number;  // 상품 수량
+}
+
+interface BoardCell {
+  number: number;      // 1~N까지의 고유 번호
+  prize: string;       // 할당된 상품명 (또는 꽝 등)
+  revealed: boolean;   // 공개 여부
+}
+
+interface GameConfig {
+  title: string;           // 게임 타이틀
+  boardSize: number;       // 보드 한 변의 크기 (1~10)
+  prizes: PrizeItem[];     // 경품 목록
+  emptyValue: string;      // 빈칸에 할당할 값 (ex. 꽝)
+}
+```
+
+## 게임 생성 로직
+1. **입력 검증**: 보드 크기(1~10), 상품 수량 유효성 검사
+2. **상품 배치**: Fisher-Yates 셔플 알고리즘으로 무작위 배치
+3. **빈칸 처리**: 남는 칸은 `emptyValue`로 채움
+4. **로컬스토리지 저장**: 게임 설정과 보드 상태 저장
+
+## 게임 진행 규칙
+- **셀 클릭**: 한 번 공개된 셀은 다시 숨길 수 없음
+- **상태 동기화**: 모든 변경사항은 즉시 로컬스토리지에 반영
+- **게임 완료**: 모든 셀이 공개되면 게임 종료
+
+## 상품 배치 알고리즘
+[src/composables/usePrizeDistribution.ts](mdc:src/composables/usePrizeDistribution.ts)에서 구현:
+
+1. **상품 목록 생성**: 각 상품을 수량만큼 배열에 추가
+2. **셔플**: 무작위로 섞기
+3. **보드 할당**: 보드 크기만큼 할당, 부족한 부분은 빈칸값으로 채움
+
+## 로컬스토리지 키 구조
+- `lottery-game-config`: 게임 설정 정보
+- `lottery-game-board`: 보드 상태 정보
+- `lottery-game-history`: 게임 진행 기록 (선택사항)
+
+## 상태 관리 패턴
+[src/composables/useGameBoard.ts](mdc:src/composables/useGameBoard.ts)에서 중앙 집중식 상태 관리:
+- **반응형 상태**: Vue3 reactivity 시스템 활용
+- **자동 저장**: 상태 변경 시 자동으로 로컬스토리지 동기화
+- **타입 안전성**: 모든 상태 변경에 타입 검증
+

@@ -1,0 +1,59 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# 코딩 표준 및 패턴
+
+## Vue3 Composition API 패턴
+- **setup() 함수 사용**: `<script setup>` 문법 선호
+- **Composables 활용**: 재사용 가능한 로직은 composables로 분리
+- **Reactive 상태**: `ref()`, `reactive()`, `computed()` 적절히 활용
+- **Props 정의**: `defineProps<T>()` 제네릭 문법 사용
+
+## TypeScript 규칙
+- **엄격한 타입 정의**: 모든 함수, 변수에 명시적 타입 지정
+- **Interface 우선**: type보다 interface 선호
+- **제네릭 활용**: 재사용 가능한 타입은 제네릭으로 정의
+- **타입 가드**: 런타임 타입 체크 함수 구현
+
+## 컴포넌트 구조
+```vue
+<template>
+  <!-- 템플릿 -->
+</template>
+
+<script setup lang="ts">
+// 1. 타입 임포트
+// 2. 컴포넌트 임포트
+// 3. Composables 임포트
+// 4. Props 정의
+// 5. Emits 정의
+// 6. 로컬 상태
+// 7. 계산된 속성
+// 8. 메서드
+// 9. 라이프사이클 훅
+</script>
+
+<style scoped>
+/* TailwindCSS 클래스 우선 사용 */
+</style>
+```
+
+## Composables 패턴
+- **단일 책임**: 하나의 composable은 하나의 기능만 담당
+- **반환 객체**: 명확한 네이밍으로 상태와 메서드 반환
+- **타입 안전성**: 모든 반환값에 타입 정의
+
+## 네이밍 컨벤션
+- **파일명**: kebab-case (예: `game-board.vue`)
+- **컴포넌트명**: PascalCase (예: `GameBoard`)
+- **변수/함수**: camelCase (예: `gameState`)
+- **상수**: UPPER_SNAKE_CASE (예: `MAX_BOARD_SIZE`)
+- **타입/인터페이스**: PascalCase (예: `GameConfig`)
+
+## 에러 처리
+- **Try-catch 블록**: 비동기 작업에 필수
+- **타입 가드**: 런타임 검증 로직 구현
+- **사용자 피드백**: 에러 상황에 대한 명확한 메시지 제공
+

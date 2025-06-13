@@ -1,0 +1,44 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# 경품추첨 보드판 프로젝트 구조
+
+## 프로젝트 개요
+사회자 전용 경품추첨 보드판 애플리케이션입니다. Vue3 + Vite + TailwindCSS + TypeScript로 구성되며, 모든 데이터는 로컬스토리지에만 저장됩니다.
+
+## 핵심 아키텍처
+- **Frontend**: Vue3 Composition API 기반
+- **빌드 도구**: Vite
+- **스타일링**: TailwindCSS
+- **타입 시스템**: TypeScript
+- **상태 관리**: Composables + LocalStorage
+
+## 디렉토리 구조
+```
+src/
+├── components/          # UI 컴포넌트
+│   ├── GameBoard.vue   # 메인 게임 보드
+│   ├── GameSetup.vue   # 게임 설정 폼
+│   ├── BoardCell.vue   # 개별 셀 컴포넌트
+│   └── PrizeReveal.vue # 상품 공개 모달
+├── composables/        # 비즈니스 로직
+│   ├── useGameBoard.ts # 게임 보드 상태 관리
+│   ├── useLocalStorage.ts # 로컬스토리지 동기화
+│   └── usePrizeDistribution.ts # 상품 배치 로직
+├── types/              # TypeScript 타입 정의
+│   └── game.ts         # 게임 관련 타입들
+├── utils/              # 유틸리티 함수
+│   ├── boardUtils.ts   # 보드 관련 헬퍼
+│   └── prizeUtils.ts   # 상품 관련 헬퍼
+├── App.vue             # 루트 컴포넌트
+└── main.ts             # 애플리케이션 진입점
+```
+
+## 주요 파일 설명
+- [src/App.vue](mdc:src/App.vue): 메인 애플리케이션 컴포넌트
+- [src/types/game.ts](mdc:src/types/game.ts): 게임 데이터 구조 정의
+- [src/composables/useGameBoard.ts](mdc:src/composables/useGameBoard.ts): 게임 보드 상태 및 로직
+- [src/components/GameBoard.vue](mdc:src/components/GameBoard.vue): 게임 보드 UI 컴포넌트
+

@@ -1,0 +1,73 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# UI/UX 가이드라인
+
+## 디자인 원칙
+- **직관적 인터페이스**: 사회자가 쉽게 사용할 수 있는 단순한 UI
+- **반응형 디자인**: 다양한 화면 크기에서 최적화
+- **접근성**: 키보드 네비게이션 및 스크린 리더 지원
+- **시각적 피드백**: 클릭, 호버 등 인터랙션에 명확한 피드백
+
+## TailwindCSS 사용 규칙
+- **유틸리티 우선**: 커스텀 CSS보다 Tailwind 클래스 우선 사용
+- **반응형 접두사**: `sm:`, `md:`, `lg:`, `xl:` 적극 활용
+- **컴포넌트 추출**: 반복되는 스타일은 Vue 컴포넌트로 추출
+- **다크모드 대응**: `dark:` 접두사로 다크모드 스타일 정의
+
+## 컬러 팔레트
+```css
+/* 주요 색상 */
+--primary: theme('colors.blue.600');      /* 메인 액션 */
+--secondary: theme('colors.gray.600');    /* 보조 요소 */
+--success: theme('colors.green.600');     /* 성공/완료 */
+--warning: theme('colors.yellow.600');    /* 경고 */
+--danger: theme('colors.red.600');        /* 위험/삭제 */
+
+/* 보드 색상 */
+--board-bg: theme('colors.gray.100');     /* 보드 배경 */
+--cell-default: theme('colors.white');    /* 기본 셀 */
+--cell-revealed: theme('colors.blue.50'); /* 공개된 셀 */
+--cell-hover: theme('colors.gray.50');    /* 호버 상태 */
+```
+
+## 컴포넌트별 스타일 가이드
+
+### 게임 보드 ([src/components/GameBoard.vue](mdc:src/components/GameBoard.vue))
+- **그리드 레이아웃**: CSS Grid 사용
+- **셀 크기**: 정사각형 유지 (aspect-square)
+- **간격**: 적절한 gap으로 시각적 분리
+- **애니메이션**: 셀 공개 시 부드러운 전환 효과
+
+### 개별 셀 ([src/components/BoardCell.vue](mdc:src/components/BoardCell.vue))
+- **기본 상태**: 번호만 표시, 호버 효과
+- **공개 상태**: 상품명 표시, 배경색 변경
+- **클릭 피드백**: 즉각적인 시각적 변화
+- **접근성**: focus 상태 명확히 표시
+
+### 설정 폼 ([src/components/GameSetup.vue](mdc:src/components/GameSetup.vue))
+- **폼 레이아웃**: 세로 정렬, 적절한 간격
+- **입력 필드**: 명확한 라벨과 플레이스홀더
+- **버튼**: 주요 액션은 primary 색상
+- **검증 메시지**: 에러 상태 명확히 표시
+
+## 반응형 브레이크포인트
+- **모바일**: `< 640px` - 세로 스크롤, 단일 컬럼
+- **태블릿**: `640px ~ 1024px` - 적응형 그리드
+- **데스크톱**: `> 1024px` - 최적화된 레이아웃
+
+## 애니메이션 가이드
+- **전환 시간**: 150ms~300ms (빠른 피드백)
+- **이징**: `ease-in-out` 기본 사용
+- **상품 공개**: 페이드인 + 스케일 효과
+- **호버 효과**: 미묘한 그림자나 색상 변화
+
+## 접근성 체크리스트
+- [ ] 키보드로 모든 기능 접근 가능
+- [ ] 포커스 표시 명확
+- [ ] 색상 대비 4.5:1 이상
+- [ ] 스크린 리더 호환성
+- [ ] 적절한 ARIA 라벨
+
