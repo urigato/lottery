@@ -41,7 +41,7 @@
     <!-- 게임 보드 -->
     <div class="bg-white rounded-lg shadow-lg md:p-6 sm:p-3 p-3">
       <div 
-        class="grid md:gap-2 sm:gap-1 gap-1 max-w-4xl mx-auto" 
+        class="grid md:gap-4 sm:gap-1 gap-1 max-w-4xl mx-auto" 
         :class="gridClass"
       >
         <BoardCell
