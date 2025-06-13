@@ -1,17 +1,5 @@
 <template>
   <div class="cell-container">
-    <!-- 콘페티 효과 -->
-    <div v-if="showConfetti" class="confetti-container">
-      <!-- 기본 콘페티 -->
-      <div v-for="i in 20" :key="`confetti-${i}`" class="confetti" :style="getConfettiStyle(i)"></div>
-      <!-- 별 모양 콘페티 -->
-      <div v-for="i in 8" :key="`star-${i}`" class="confetti star" :style="getStarStyle(i)">⭐</div>
-      <!-- 하트 모양 콘페티 -->
-      <div v-for="i in 6" :key="`heart-${i}`" class="confetti heart" :style="getHeartStyle(i)">💖</div>
-      <!-- 원형 파티클 -->
-      <div v-for="i in 15" :key="`circle-${i}`" class="confetti circle" :style="getCircleStyle(i)"></div>
-    </div>
-
     <!-- 폭발 효과 -->
     <div v-if="showExplosion" class="explosion-container">
       <!-- 메인 폭발 파티클 (큰 원) -->
@@ -30,8 +18,7 @@
       :class="{
         'revealed': cell.isRevealed,
         'unrevealed': !cell.isRevealed,
-        'animating': isAnimating,
-        'winning': cell.isRevealed && isWinning
+        'animating': isAnimating
       }"
       :aria-label="`셀 ${cell.number}${cell.isRevealed ? `, 상품: ${cell.prize}` : ''}`"
     >
@@ -49,7 +36,6 @@
 
       <!-- 애니메이션 효과들 -->
       <div v-if="!cell.isRevealed" class="hover-effect"></div>
-      <div v-if="cell.isRevealed && isWinning" class="win-glow"></div>
       <div v-if="isAnimating" class="reveal-animation"></div>
     </button>
   </div>
@@ -72,15 +58,7 @@ const emit = defineEmits<Emits>()
 
 // 상태 관리
 const isAnimating = ref(false)
-const showConfetti = ref(false)
 const showExplosion = ref(false)
-
-// 당첨 여부 확인
-const isWinning = computed(() => {
-  if (!props.cell.isRevealed) return false
-  const prize = props.cell.prize
-  return prize !== '꽝' && prize !== '다음 기회에' && prize !== ''
-})
 
 // 상품별 고유 색상 결정
 const prizeColorIndex = computed(() => {
@@ -267,14 +245,6 @@ const handleReveal = async () => {
   // 애니메이션 대기
   await new Promise(resolve => setTimeout(resolve, 600))
 
-  // 당첨 시 콘페티 효과
-  if (willWin) {
-    showConfetti.value = true
-    setTimeout(() => {
-      showConfetti.value = false
-    }, 3500)
-  }
-
   isAnimating.value = false
 }
 </script>
@@ -345,20 +315,6 @@ const handleReveal = async () => {
   }
 }
 
-/* 당첨 카드 펄스 효과 */
-.board-cell.winning {
-  animation: winningGlow 2s infinite alternate;
-}
-
-@keyframes winningGlow {
-  0% { 
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  }
-  100% { 
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
-  }
-}
-
 /* 호버 효과 */
 .hover-effect {
   position: absolute;
@@ -381,26 +337,6 @@ const handleReveal = async () => {
 .board-cell.unrevealed:hover .hover-effect {
   opacity: 1;
   transform: translateX(100%) translateY(100%) rotate(45deg);
-}
-
-/* 당첨 글로우 효과 */
-.win-glow {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: 0.5rem;
-  background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24);
-  background-size: 400% 400%;
-  animation: gradientShift 3s ease infinite;
-  opacity: 0.2;
-  z-index: -1;
-}
-
-@keyframes gradientShift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
 }
 
 /* 리빌 애니메이션 */
@@ -514,43 +450,6 @@ const handleReveal = async () => {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* 콘페티 효과 */
-.confetti-container {
-  position: absolute;
-  top: -10px; /* 위쪽으로 살짝 확장 */
-  left: -15px; /* 왼쪽으로 살짝 확장 */
-  width: 130%; /* 폭을 30% 더 넓게 */
-  height: 110%; /* 높이도 10% 더 높게 */
-  pointer-events: none;
-  z-index: 10;
-  overflow: visible;
-}
-
-.confetti {
-  position: absolute;
-  animation: confettiFall linear forwards;
-}
-
-.confetti.star, .confetti.heart {
-  font-size: 14px;
-  line-height: 1;
-}
-
-.confetti:not(.star):not(.heart):not(.circle) {
-  border-radius: 2px;
-}
-
-@keyframes confettiFall {
-  0% {
-    transform: translateY(-30px) rotate(0deg);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(280px) rotate(720deg);
-    opacity: 0;
-  }
-}
-
 /* 폭발 효과 */
 .explosion-container {
   position: absolute;
@@ -614,10 +513,6 @@ const handleReveal = async () => {
   .prize-circle {
     padding: 0.5rem;
   }
-  
-  .confetti.star, .confetti.heart {
-    font-size: 10px;
-  }
 }
 
 @media (min-width: 1024px) {
@@ -631,10 +526,6 @@ const handleReveal = async () => {
   
   .prize-circle {
     padding: 1rem;
-  }
-  
-  .confetti.star, .confetti.heart {
-    font-size: 16px;
   }
 }
 </style> 
