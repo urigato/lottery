@@ -38,30 +38,32 @@
         <div class="space-y-2">
           <label class="block text-sm font-medium text-gray-700">경품 목록</label>
           <div class="space-y-3">
-            <div v-for="(prize, index) in form.prizes" :key="index" class="flex gap-2 items-center">
+            <div v-for="(prize, index) in form.prizes" :key="index" class="prize-item flex gap-2 items-center">
               <input
                 v-model="prize.name"
                 type="text"
-                class="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                class="prize-name-input flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="상품명"
                 required
               >
-              <input
-                v-model.number="prize.quantity"
-                type="number"
-                min="1"
-                class="w-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="수량"
-                required
-              >
-              <button
-                type="button"
-                @click="removePrize(index)"
-                class="px-2 py-1 text-red-600 hover:bg-red-50 rounded disabled:opacity-50 disabled:cursor-not-allowed"
-                :disabled="form.prizes.length <= 1"
-              >
-                ❌
-              </button>
+              <div class="prize-controls flex gap-2 items-center">
+                <input
+                  v-model.number="prize.quantity"
+                  type="number"
+                  min="1"
+                  class="prize-quantity-input w-16 px-2 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="수량"
+                  required
+                >
+                <button
+                  type="button"
+                  @click="removePrize(index)"
+                  class="px-2 py-1 text-red-600 hover:bg-red-50 rounded disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
+                  :disabled="form.prizes.length <= 1"
+                >
+                  ❌
+                </button>
+              </div>
             </div>
             <button
               type="button"
@@ -300,11 +302,30 @@ const handleImportConfig = async () => {
   
   .prize-item {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.75rem;
+    align-items: stretch;
   }
   
-  .prize-name-input, .prize-quantity-input {
+  .prize-name-input {
     width: 100%;
+  }
+  
+  .prize-controls {
+    justify-content: end;
+    width: 100%;
+  }
+  
+  .prize-quantity-input {
+    width: 80px;
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .prize-quantity-input {
+    width: 70px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 }
 </style> 

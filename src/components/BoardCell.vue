@@ -428,18 +428,50 @@ const handleReveal = async () => {
   }
 }
 
-/* 반응형 폰트 크기 */
+/* 반응형 폰트 크기 및 크기 조정 */
 @media (max-width: 640px) {
+  .cell-container {
+    min-height: 55px;
+  }
+  
   .cell-number {
     font-size: 1.25rem;
   }
   
   .prize-text {
-    font-size: 1.25rem;
+    font-size: 1rem;
+    line-height: 1.1;
   }
   
   .prize-circle {
+    padding: 0.25rem;
+  }
+  
+  .cell-prize {
     padding: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cell-container {
+    min-height: 50px;
+  }
+  
+  .cell-number {
+    font-size: 1rem;
+  }
+  
+  .prize-text {
+    font-size: 0.875rem;
+    line-height: 1;
+  }
+  
+  .prize-circle {
+    padding: 0.125rem;
+  }
+  
+  .cell-prize {
+    padding: 0.175rem;
   }
 }
 

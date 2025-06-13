@@ -1,49 +1,47 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+  <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 md:p-4 sm:p-2 p-0">
     <!-- 게임 헤더 -->
-    <div class="bg-white rounded-lg shadow-lg p-6 mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-      <div class="flex-1">
-        <h1 class="text-2xl font-bold text-gray-800 mb-2">{{ gameState.config.title }}</h1>
-        <div class="flex gap-4 text-sm">
-          <div class="flex items-center gap-1">
-            <span class="text-gray-600">진행률:</span>
-            <span class="font-semibold text-gray-800">{{ progress }}%</span>
+    <div class="bg-white rounded-lg shadow-lg md:p-6 sm:p-4 p-4 md:mb-6 sm:mb-4 mb-3 flex flex-col">
+      <div class="flex-1 flex-col sm:flex-row justify-between items-start sm:items-center gap-4 flex mb-2">
+        <div class="flex-1">
+          <h1 class="text-2xl font-bold text-gray-800 mb-2">{{ gameState.config.title }}</h1>
+          <div class="flex gap-4 text-sm">
+            <div class="flex items-center gap-1">
+              <span class="text-gray-600">진행률:</span>
+              <span class="font-semibold text-gray-800">{{ progress }}%</span>
+            </div>
+            <div class="flex items-center gap-1">
+              <span class="text-gray-600">공개:</span>
+              <span class="font-semibold text-gray-800">{{ gameState.revealedCount }}/{{ gameState.totalCells }}</span>
+            </div>
           </div>
-          <div class="flex items-center gap-1">
-            <span class="text-gray-600">공개:</span>
-            <span class="font-semibold text-gray-800">{{ gameState.revealedCount }}/{{ gameState.totalCells }}</span>
-          </div>
+        </div>
+        
+        <div class="flex gap-2 mb-2">
+          <button @click="handleExportConfig" class="px-4 py-2 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 bg-green-600 text-white hover:bg-green-700 focus:ring-green-500">
+            <span class="hidden sm:inline">📁 </span>설정저장
+          </button>
+          <button @click="showResetConfirm = true" class="px-4 py-2 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 bg-red-600 text-white hover:bg-red-700 focus:ring-red-500">
+            <span class="hidden sm:inline">🔄 </span>새 게임
+          </button>
+          <button @click="showRestartConfirm = true" class="px-4 py-2 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500">
+            <span class="hidden sm:inline">↩️ </span>다시 시작
+          </button>
         </div>
       </div>
       
-      <div class="flex gap-2">
-        <button @click="handleExportConfig" class="px-4 py-2 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 bg-green-600 text-white hover:bg-green-700 focus:ring-green-500">
-          📁 설정 내보내기
-        </button>
-        <button @click="showResetConfirm = true" class="px-4 py-2 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 bg-red-600 text-white hover:bg-red-700 focus:ring-red-500">
-          🔄 새 게임
-        </button>
-        <button @click="showRestartConfirm = true" class="px-4 py-2 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500">
-          ↩️ 다시 시작
-        </button>
-      </div>
-    </div>
-
-    <!-- 진행률 바 -->
-    <div class="bg-white rounded-lg shadow-lg p-4 mb-6">
-      <div class="w-full bg-gray-200 rounded-full h-4 mb-2">
+      <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
         <div 
           class="bg-blue-600 h-full rounded-full transition-all duration-300 ease-out" 
           :style="{ width: `${progress}%` }"
         ></div>
       </div>
-      <div class="text-center text-sm font-medium text-gray-700">{{ progress }}% 완료</div>
     </div>
 
     <!-- 게임 보드 -->
-    <div class="bg-white rounded-lg shadow-lg p-6">
+    <div class="bg-white rounded-lg shadow-lg md:p-6 sm:p-3 p-3">
       <div 
-        class="grid gap-2 max-w-4xl mx-auto" 
+        class="grid md:gap-2 sm:gap-1 gap-1 max-w-4xl mx-auto" 
         :class="gridClass"
       >
         <BoardCell
@@ -58,7 +56,7 @@
     <!-- 게임 완료 모달 -->
     <div v-if="currentPhase === 'finished' && showFinishModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" @click="closeFinishModal">
       <div class="bg-white rounded-lg shadow-xl p-6 max-w-md w-full" @click.stop>
-        <h2 class="text-xl font-bold text-gray-800 mb-4">🎉 게임 완료!</h2>
+        <h2 class="text-xl font-bold text-gray-800 mb-4"><span class="hidden sm:inline">🎉 </span>게임 완료!</h2>
         <p class="text-gray-600 mb-6">모든 상품이 공개되었습니다.</p>
         <div class="flex gap-2 justify-end">
           <button @click="restartGame" class="px-4 py-2 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500">
@@ -77,7 +75,7 @@
     <!-- 새 게임 확인 모달 -->
     <div v-if="showResetConfirm" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" @click="showResetConfirm = false">
       <div class="bg-white rounded-lg shadow-xl p-6 max-w-md w-full" @click.stop>
-        <h2 class="text-xl font-bold text-gray-800 mb-4">⚠️ 새 게임</h2>
+        <h2 class="text-xl font-bold text-gray-800 mb-4"><span class="hidden sm:inline">⚠️ </span>새 게임</h2>
         <p class="text-gray-600 mb-6">현재 게임을 종료하고 새 게임을 시작하시겠습니까?</p>
         <div class="flex gap-2 justify-end">
           <button @click="confirmReset" class="px-4 py-2 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 bg-red-600 text-white hover:bg-red-700 focus:ring-red-500">
@@ -93,7 +91,7 @@
     <!-- 다시 시작 확인 모달 -->
     <div v-if="showRestartConfirm" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" @click="showRestartConfirm = false">
       <div class="bg-white rounded-lg shadow-xl p-6 max-w-md w-full" @click.stop>
-        <h2 class="text-xl font-bold text-gray-800 mb-4">🔄 다시 시작</h2>
+        <h2 class="text-xl font-bold text-gray-800 mb-4"><span class="hidden sm:inline">🔄 </span>다시 시작</h2>
         <p class="text-gray-600 mb-6">같은 설정으로 게임을 다시 시작하시겠습니까?</p>
         <div class="flex gap-2 justify-end">
           <button @click="confirmRestart" class="px-4 py-2 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500">
