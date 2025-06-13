@@ -341,11 +341,11 @@ const handleReveal = async () => {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.prize-circle.circle-color-0 {
+.prize-circle.circle-color-5 {
   background: linear-gradient(135deg, #4ade80, #16a34a);
 }
 
-.prize-circle.circle-color-1 {
+.prize-circle.circle-color-6 {
   background: linear-gradient(135deg, #facc15, #ca8a04);
 }
 
@@ -353,23 +353,23 @@ const handleReveal = async () => {
   background: linear-gradient(135deg, #a855f7, #7c3aed);
 }
 
-.prize-circle.circle-color-3 {
+.prize-circle.circle-color-1 {
   background: linear-gradient(135deg, #f472b6, #ec4899);
 }
 
-.prize-circle.circle-color-4 {
+.prize-circle.circle-color-7 {
   background: linear-gradient(135deg, #f87171, #dc2626);
 }
 
-.prize-circle.circle-color-5 {
+.prize-circle.circle-color-3 {
   background: linear-gradient(135deg, #fb923c, #ea580c);
 }
 
-.prize-circle.circle-color-6 {
+.prize-circle.circle-color-0 {
   background: linear-gradient(135deg, #2dd4bf, #0d9488);
 }
 
-.prize-circle.circle-color-7 {
+.prize-circle.circle-color-4 {
   background: linear-gradient(135deg, #8b5cf6, #7c3aed);
 }
 
